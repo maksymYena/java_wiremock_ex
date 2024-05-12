@@ -18,16 +18,18 @@ public class ProductController {
     @Autowired
     private WebClient webClient;
 
-    @GetMapping(value = {"/id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    // Get product by id
+    @GetMapping(value = {"/{id}"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public Product getProduct(@PathVariable int id) {
         return webClient.get().uri(x -> x
-                .path("/products/{id}")
-                .build(id))
+                        .path("/products/{id}")
+                        .build(id))
                 .retrieve()
                 .bodyToMono(Product.class)
                 .block();
     }
 
+    // Get list of products
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Product> getProducts() {
         return webClient.get().uri("/products")
@@ -37,10 +39,10 @@ public class ProductController {
                 .block();
     }
 
+    // Get count of products
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
     public String getProductsCount() {
         int size =  getProducts().size();
         return String.format("{\"count\" : %d}", size);
     }
-
 }

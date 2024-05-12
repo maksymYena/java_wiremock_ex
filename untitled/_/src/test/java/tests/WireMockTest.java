@@ -16,6 +16,7 @@ import org.wiremock.Main;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
+// Spring Boot test class for WireMock
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {Main.class})
 @com.github.tomakehurst.wiremock.junit5.WireMockTest
 public class WireMockTest {
@@ -25,16 +26,19 @@ public class WireMockTest {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    // WireMock extension for testing REST client
     @RegisterExtension
     static WireMockExtension wireMockExtension = WireMockExtension.newInstance()
             .options(wireMockConfig().dynamicPort())
             .build();
 
+    // Dynamic property source to set up base URL for WireMock
     @DynamicPropertySource
     public static void  setUpMockBaseUrl(DynamicPropertyRegistry registry) {
         registry.add("products_base_url", wireMockExtension::baseUrl);
     }
 
+    // Test to verify that product count is 0 when the list is empty
     @Test
     public void testProductSizeIsEmpty() {
         wireMockExtension.stubFor(
