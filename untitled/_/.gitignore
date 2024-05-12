@@ -49,3 +49,9 @@ jdev/
 # Generic
 .DS_Store
 Thumbs.db
+
+# Gradle
+build/
+.gradle/
+# Исключаем все файлы из директории .gradle
+.gradle/*

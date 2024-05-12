@@ -36,4 +36,11 @@ public class ProductController {
                 .collectList()
                 .block();
     }
+
+    @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getProductsCount() {
+        int size =  getProducts().size();
+        return String.format("{\"count\" : %d}", size);
+    }
+
 }
